@@ -15,14 +15,12 @@ class EmployeeController extends Controller
         return view('employee.index', compact('employees'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
-
     public function create()
     {
         return view('employee.create');
     }
     public function store(Request $request)
     {
-
         $employee = new Employee();
         $employee->id_number = $request->id_number;
         $employee->full_name = $request->full_name;
@@ -71,7 +69,6 @@ class EmployeeController extends Controller
     {
         return view('employee.edit', compact('employee'));
     }
-
     public function update(Request $request, $employee)
     {
         $employee = Employee::find($employee);
@@ -123,5 +120,17 @@ class EmployeeController extends Controller
 
         return redirect()->route('employees.index')
             ->with('success', 'Data karyawan berhasil diperbarui.');
+    }
+    public function destroy($id_number)
+    {
+        $employee = Employee::where('id_number', $id_number)->first();
+        if ($employee) {
+            Family_date::where('id_number', $id_number)->delete();
+            $employee->delete();
+            return redirect()->route('employees.index')
+                ->with('success', 'Data karyawan dan data terkait berhasil dihapus.');
+        }
+        return redirect()->route('employees.index')
+            ->with('error', 'Data karyawan tidak ditemukan.');
     }
 }
