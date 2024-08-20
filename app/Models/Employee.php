@@ -8,12 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_number';
+    protected $keyType = 'string';
     protected $fillable = [
         'id_number',
         'full_name',
         'nickname',
         'contract_date',
         'work_date',
+        'work_time',
         'status',
         'position',
         'nuptk',
@@ -35,12 +38,17 @@ class Employee extends Model
         'competency_training_place',
         'organizational_experience'
     ];
-    function employee_record () {
+    function employee_record()
+    {
         return $this->hasMany(Employee_record::class);
     }
 
-    function Family_date() {
+    function Family_date()
+    {
         return $this->hasOne(Family_date::class);
     }
-
+    public function familyDate()
+    {
+        return $this->hasOne(Family_date::class, 'id_number', 'id_number');
+    }
 }

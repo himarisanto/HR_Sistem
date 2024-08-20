@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nickname');
             $table->date('contract_date');
             $table->date('work_date');
+            $table->enum('work_time', ['Magang', 'kontrak', 'Tetap']);
             $table->enum('status', ['Aktif', 'Berhenti']);
             $table->string('position');
             $table->string('nuptk')->nullable();
