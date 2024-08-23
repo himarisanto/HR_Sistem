@@ -220,36 +220,35 @@
         </div>
 
         <h2>Data Keluarga</h2>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nama Pasangan:</strong>
-                    <input type="text" name="mate_name" class="form-control" value="{{ old('mate_name', $employee->mate_name) }}">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nama Anak:</strong>
-                    <input type="text" name="child_name" class="form-control" value="{{ old('child_name', $employee->child_name) }}">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tanggal Pernikahan:</strong>
-                    <input type="date" name="wedding_date" class="form-control" value="{{ old('wedding_date', $employee->wedding_date) }}" required>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nomor Sertifikat Pernikahan:</strong>
-                    <input type="text" name="wedding_certificate_number" class="form-control" value="{{ old('wedding_certificate_number', $employee->wedding_certificate_number) }}" required>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a class="btn btn-primary" href="{{ route('employees.index') }}">Kembali</a>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Nama Pasangan:</strong>
+                <input type="text" name="mate_name" value="{{ $employee->familyDate->mate_name ?? '' }}" class="form-control" placeholder="Nama Pasangan">
             </div>
         </div>
-    </form>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Nama Anak:</strong>
+                <input type="text" name="child_name" value="{{ $employee->familyDate->child_name ?? '' }}" class="form-control" placeholder="Nama Anak">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Tanggal Pernikahan:</strong>
+                <input type="date" name="wedding_date" value="{{ $employee->familyDate->wedding_date ?? '' }}" class="form-control" placeholder="Tanggal Pernikahan">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Nomor Sertifikat Pernikahan:</strong>
+                <input type="text" name="wedding_certificate_number" value="{{ $employee->familyDate->wedding_certificate_number ?? '' }}" class="form-control" placeholder="Nomor Sertifikat Pernikahan">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a class="btn btn-primary" href="{{ route('employees.index') }}">Kembali</a>
+        </div>
+</div>
+</form>
 </div>
 @endsection

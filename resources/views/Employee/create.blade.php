@@ -1,14 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.app') <!-- Assuming 'app' is the NiceAdmin template's layout -->
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Tambah Karyawan</h2>
-            </div>
+    <div class="row mb-2">
+        <div class="col-lg-12 d-flex justify-content-center align-items-center">
+            <h2>Tambah Karyawan</h2>
         </div>
     </div>
+
 
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -24,227 +23,182 @@
     <form action="{{ route('employees.store') }}" method="POST">
         @csrf
 
-        <h2>Data Pribadi</h2>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nomor KTP:</strong>
-                    <input type="text" name="id_number" class="form-control" placeholder="16 digit">
-                </div>
+        <!-- Personal Data Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 style="text-align: center;">Data Pribadi</h5>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nama Lengkap:</strong>
-                    <input type="text" name="full_name" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nama Panggilan:</strong>
-                    <input type="text" name="nickname" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tanggal Kontrak:</strong>
-                    <input type="date" name="contract_date" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tanggal Kerja:</strong>
-                    <input type="date" name="work_date" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Masa Kerja:</strong>
-                    <select name="work_time" class="form-control">
-                        <option value=""></option>
-                        <option value="Magang">Magang</option>
-                        <option value="Kontrak">Kontrak</option>
-                        <option value="Tetap">Tetap</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Status:</strong>
-                    <select name="status" class="form-control">
-                        <option value=""></option>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Berhenti">Berhenti</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Posisi:</strong>
-                    <input type="text" name="position" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>NUPTK:</strong>
-                    <input type="text" name="nuptk" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Jenis Kelamin:</strong>
-                    <select name="gender" class="form-control">
-                        <option value=""></option>
-                        <option value="pria">Pria</option>
-                        <option value="wanita">Wanita</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tempat Lahir:</strong>
-                    <input type="text" name="place_birth" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tanggal Lahir:</strong>
-                    <input type="date" name="birth_date" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Agama:</strong>
-                    <select name="religion" class="form-control" required>
-                        <option value=""></option>
-                        <option value="Kristen">Kristen</option>
-                        <option value="Katolik">Katolik</option>
-                        <option value="Islam">Islam</option>
-                        <option value="Hindu">Hindu</option>
-                        <option value="Buddha">Buddha</option>
-                        <option value="Kong Hu Cu">Kong Hu Cu</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Email:</strong>
-                    <input type="email" name="email" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Hobi:</strong>
-                    <input type="text" name="hobby" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Status Pernikahan:</strong>
-                    <select name="marital_status" class="form-control">
-                        <option value=""></option>
-                        <option value="menikah">Menikah</option>
-                        <option value="belum">Belum</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Alamat Tempat Tinggal:</strong>
-                    <input type="text" name="residence_address" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Telepon:</strong>
-                    <input type="text" name="phone" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Alamat Darurat:</strong>
-                    <input type="text" name="address_emergency" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Telepon Darurat:</strong>
-                    <input type="text" name="phone_emergency" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Golongan Darah:</strong>
-                    <select name="blood_type" class="form-control" required>
-                        <option value=""></option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="AB">AB</option>
-                        <option value="O">O</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Pendidikan Terakhir:</strong>
-                    <input type="text" name="last_education" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Lembaga:</strong>
-                    <input type="text" name="agency" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tahun Kelulusan:</strong>
-                    <input type="text" name="graduation_year" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tempat Pelatihan Kompetensi:</strong>
-                    <input type="text" name="competency_training_place" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Pengalaman Organisasi:</strong>
-                    <textarea class="form-control" style="height:150px" name="organizational_experience"></textarea>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="id_number" class="form-label"><strong>Nomor KTP</strong></label>
+                        <input type="text" name="id_number" class="form-control" placeholder="16 digit">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="full_name" class="form-label"><strong>Nama Lengkap</strong></label>
+                        <input type="text" name="full_name" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="nickname" class="form-label"><strong>Nama Panggilan</strong></label>
+                        <input type="text" name="nickname" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="contract_date" class="form-label"><strong>Tanggal Kontrak</strong></label>
+                        <input type="date" name="contract_date" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="work_date" class="form-label"><strong>Tanggal Kerja</strong></label>
+                        <input type="date" name="work_date" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="work_time" class="form-label"><strong>Masa Kerja</strong></label>
+                        <select name="work_time" class="form-control">
+                            <option value=""></option>
+                            <option value="Magang">Magang</option>
+                            <option value="Kontrak">Kontrak</option>
+                            <option value="Tetap">Tetap</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="status" class="form-label"><strong>Status</strong></label>
+                        <select name="status" class="form-control">
+                            <option value=""></option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Berhenti">Berhenti</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="position" class="form-label"><strong>Posisi</strong></label>
+                        <input type="text" name="position" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="nuptk" class="form-label"><strong>NUPTK</strong></label>
+                        <input type="text" name="nuptk" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="gender" class="form-label"><strong>Jenis Kelamin</strong></label>
+                        <select name="gender" class="form-control">
+                            <option value=""></option>
+                            <option value="pria">Pria</option>
+                            <option value="wanita">Wanita</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="place_birth" class="form-label"><strong>Tempat Lahir</strong></label>
+                        <input type="text" name="place_birth" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="birth_date" class="form-label"><strong>Tanggal Lahir</strong></label>
+                        <input type="date" name="birth_date" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="religion" class="form-label"><strong>Agama</strong></label>
+                        <select name="religion" class="form-control" required>
+                            <option value=""></option>
+                            <option value="Kristen">Kristen</option>
+                            <option value="Katolik">Katolik</option>
+                            <option value="Islam">Islam</option>
+                            <option value="Hindu">Hindu</option>
+                            <option value="Buddha">Buddha</option>
+                            <option value="Kong Hu Cu">Kong Hu Cu</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label"><strong>Email</strong></label>
+                        <input type="email" name="email" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="hobby" class="form-label"><strong>Hobi</strong></label>
+                        <input type="text" name="hobby" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="marital_status" class="form-label"><strong>Status Pernikahan</strong></label>
+                        <select name="marital_status" class="form-control">
+                            <option value=""></option>
+                            <option value="menikah">Menikah</option>
+                            <option value="belum">Belum</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="residence_address" class="form-label"><strong>Alamat Tempat Tinggal</strong></label>
+                        <input type="text" name="residence_address" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="phone" class="form-label"><strong>Telepon</strong></label>
+                        <input type="text" name="phone" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="address_emergency" class="form-label"><strong>Alamat Darurat</strong></label>
+                        <input type="text" name="address_emergency" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="phone_emergency" class="form-label"><strong>Telepon Darurat</strong></label>
+                        <input type="text" name="phone_emergency" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="blood_type" class="form-label"><strong>Golongan Darah</strong></label>
+                        <select name="blood_type" class="form-control" required>
+                            <option value=""></option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="AB">AB</option>
+                            <option value="O">O</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="last_education" class="form-label"><strong>Pendidikan Terakhir</strong></label>
+                        <input type="text" name="last_education" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="agency" class="form-label"><strong>Lembaga</strong></label>
+                        <input type="text" name="agency" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="graduation_year" class="form-label"><strong>Tahun Kelulusan</strong></label>
+                        <input type="text" name="graduation_year" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="competency_training_place" class="form-label"><strong>Tempat Pelatihan Kompetensi</strong></label>
+                        <input type="text" name="competency_training_place" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="organizational_experience" class="form-label"><strong>Pengalaman Organisasi</strong></label>
+                        <textarea class="form-control" style="height:150px" name="organizational_experience"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <h2>Data Keluarga</h2>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nama Pasangan:</strong>
-                    <input type="text" name="mate_name" class="form-control">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 style="text-align: center;">Data Keluarga</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="mate_name" class="form-label"><strong>Nama Pasangan</strong></label>
+                        <input type="text" name="mate_name" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="child_name" class="form-label"><strong>Nama Anak</strong></label>
+                        <input type="text" name="child_name" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="wedding_date" class="form-label"><strong>Tanggal Pernikahan</strong></label>
+                        <input type="date" name="wedding_date" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="wedding_certificate_number" class="form-label"><strong>Nomor Sertifikat Pernikahan</strong></label>
+                        <input type="text" name="wedding_certificate_number" class="form-control" required>
+                    </div>
+
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nama Anak:</strong>
-                    <input type="text" name="child_name" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tanggal Pernikahan:</strong>
-                    <input type="date" name="wedding_date" class="form-control" required>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Nomor Sertifikat Pernikahan:</strong>
-                    <input type="text" name="wedding_certificate_number" class="form-control" required>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a class="btn btn-primary" href="{{ route('employees.index') }}">Kembali</a>
-            </div>
+        </div>
+
+        <div class="">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a class="btn btn-primary" href="{{ route('employees.index') }}">Kembali</a>
         </div>
     </form>
 </div>
