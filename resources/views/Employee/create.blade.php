@@ -1,10 +1,10 @@
-@extends('layouts.app') <!-- Assuming 'app' is the NiceAdmin template's layout -->
+@extends('layouts.master') <!-- Assuming 'app' is the NiceAdmin template's layout -->
 
 @section('content')
 <div class="container">
     <div class="row mb-2">
         <div class="col-lg-12 d-flex justify-content-center align-items-center">
-            <h2>Tambah Karyawan</h2>
+            <h2 style="text-align: center;">Tambah Karyawan</h2>
         </div>
     </div>
 

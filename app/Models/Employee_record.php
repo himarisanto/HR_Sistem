@@ -9,15 +9,26 @@ class Employee_record extends Model
 {
     use HasFactory;
 
+    protected $table = 'employee_records';
+
+
+    protected $primaryKey = 'id';
+    protected $keyType = 'int';
+
+  
     protected $fillable = [
         'id_number',
         'offense_type',
         'offense_date',
-        'description'
+        'description',
     ];
 
-    function Employee()
+    protected $casts = [
+        'offense_date' => 'date',
+    ];
+
+    public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'id_number', 'id_number');
     }
 }

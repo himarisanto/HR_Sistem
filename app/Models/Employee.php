@@ -38,6 +38,9 @@ class Employee extends Model
         'competency_training_place',
         'organizational_experience'
     ];
+    protected $casts = [
+        'birth_date' => 'datetime',
+    ];
     function employee_record()
     {
         return $this->hasMany(Employee_record::class);
@@ -50,5 +53,9 @@ class Employee extends Model
     public function familyDate()
     {
         return $this->hasOne(Family_date::class, 'id_number', 'id_number');
+    }
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'employee_id', 'id_number');
     }
 }
