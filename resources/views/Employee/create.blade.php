@@ -185,16 +185,16 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="wedding_date" class="form-label"><strong>Tanggal Pernikahan</strong></label>
-                        <input type="date" name="wedding_date" class="form-control" required>
+                        <input type="date" name="wedding_date" class="form-control">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="wedding_certificate_number" class="form-label"><strong>Nomor Sertifikat Pernikahan</strong></label>
-                        <input type="text" name="wedding_certificate_number" class="form-control" required>
+                        <input type="text" name="wedding_certificate_number" class="form-control">
                     </div>
-
                 </div>
             </div>
         </div>
+
 
         <div class="">
             <button type="submit" class="btn btn-primary">Simpan</button>
@@ -202,4 +202,33 @@
         </div>
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const maritalStatusSelect = document.getElementById('marital_status');
+        const mateNameInput = document.getElementById('mate_name');
+        const childNameInput = document.getElementById('child_name');
+        const weddingDateInput = document.getElementById('wedding_date');
+        const weddingCertificateNumberInput = document.getElementById('wedding_certificate_number');
+
+        function toggleFields() {
+            const isMarried = maritalStatusSelect.value === 'menikah';
+
+            [mateNameInput, childNameInput, weddingDateInput, weddingCertificateNumberInput].forEach(input => {
+                input.disabled = !isMarried;
+                if (input.disabled) {
+                    input.style.backgroundColor = '#f8f9fa'; 
+                    input.style.color = '#6c757d'; 
+                    input.style.cursor = 'not-allowed';
+                } else {
+                    input.style.backgroundColor = '';
+                    input.style.color = '';
+                    input.style.cursor = '';
+                }
+            });
+        }
+
+        maritalStatusSelect.addEventListener('change', toggleFields);
+        toggleFields();
+    });
+</script>
 @endsection

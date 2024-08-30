@@ -4,27 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee; // Sesuaikan dengan model Anda
+use App\Models\Employee_record;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        // Ambil pencarian dari query string
-        $search = $request->get('search');
+        $employees = Employee::with('familyDate')->paginate(10);
+        $totalEmployees = Employee::count();
+        $totalRecords = Employee_record::count(); // Pastikan ini ada
+        $recentActivity = Employee_record::orderBy('offense_date', 'desc')->take(5)->get();
 
-        // Ambil data karyawan yang sesuai dengan pencarian
-        $employees = Employee::when($search, function ($query, $search) {
-            return $query->where('full_name', 'like', "%{$search}%");
-        })->get();
-
-        // Ambil data untuk dasbor
-        $recentActivities = []; // Ganti dengan data aktivitas terbaru
-        $topPerformers = []; // Ganti dengan data performer terbaik
-        $birthdayAlerts = []; // Ganti dengan data ulang tahun
-
-        // Hitung jumlah karyawan
-        $totalEmployees = $employees->count();
-
-        return view('admin.home', compact('recentActivities', 'topPerformers', 'birthdayAlerts', 'totalEmployees'));
+        return view('admin.home', compact('employees', 'totalEmployees', 'totalRecords', 'recentActivity'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 }

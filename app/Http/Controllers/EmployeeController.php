@@ -6,13 +6,11 @@ use App\Models\Employee;
 use App\Models\Family_date;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Employee_record;
 
 class EmployeeController extends Controller
 {
     public function index()
     {
-        $records = Employee_record::all();
         $employees = Employee::with('familyDate')->paginate(10);
         return view('employee.index', compact('employees'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
@@ -21,11 +19,6 @@ class EmployeeController extends Controller
     {
         return view('employee.create');
     }
-    public function createpelanggaran()
-    {
-        return view('pelanggaran.create');
-    }
-
     public function store(Request $request)
     {
         $employee = new Employee();
@@ -64,13 +57,6 @@ class EmployeeController extends Controller
         $keluarga->wedding_certificate_number = $request->wedding_certificate_number;
         $keluarga->save();
 
-        $pelanggaran = new Employee_record();
-        $pelanggaran->id_number = $request->id_number;
-        $pelanggaran->offense_type = $request->offense_type;
-        $pelanggaran->offense_date = $request->offense_date;
-        $pelanggaran->description = $request->description;
-        $pelanggaran->save();
-
         User::create([
             'name' => $employee->nickname,
             'email' => $request->email,
@@ -83,13 +69,7 @@ class EmployeeController extends Controller
     {
         return view('employee.edit', compact('employee'));
     }
-    public function editpelanggaran($id_number)
-    {
-        $pelanggaran = Employee_record::where('id_number', $id_number)->firstOrFail();
-
-        return view('pelanggaran.edit', compact('pelanggaran'));
-    }
-    public function update(Request $request, $employee, $id_number)
+    public function update(Request $request, $employee)
     {
         $employee = Employee::find($employee);
         $employee->id_number = $request->id_number;
@@ -135,14 +115,8 @@ class EmployeeController extends Controller
                 'wedding_certificate_number' => $request->wedding_certificate_number,
             ]);
         }
-        $employee->save();
-        $pelanggaran = Employee_record::where('id_number', $id_number)->firstOrFail();
 
-        $pelanggaran->id_number = $request->id_number;
-        $pelanggaran->offense_type = $request->offense_type;
-        $pelanggaran->offense_date = $request->offense_date;
-        $pelanggaran->description = $request->description;
-        $pelanggaran->save();
+        $employee->save();
 
         return redirect()->route('employees.index')
             ->with('success', 'Data karyawan berhasil diperbarui.');
