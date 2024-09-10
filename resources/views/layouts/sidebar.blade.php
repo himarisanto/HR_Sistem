@@ -52,7 +52,11 @@
                         <i class="bi bi-table fs-6"></i><span>Pelanggaran</span>
                     </a>
                 </li>
-
+                <li>
+                    <a class="nav-link {{ Route::currentRouteNamed('employee.archive') ? '' : 'collapsed' }}" href="{{ route('employees.archive') }}">
+                        <i class="bi bi-table fs-6"></i><span>Arsip</span>
+                    </a>
+                </li>
 
                 <li>
                     <a class="nav-link {{ Route::currentRouteNamed('employee.golongan') ? '' : 'collapsed' }}" href="{{ route('employees.golongan') }}">

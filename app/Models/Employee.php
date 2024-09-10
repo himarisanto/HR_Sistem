@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes; // Impor SoftDeletes dari namespace yang benar
+
 
 class Employee extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
     protected $primaryKey = 'id_number';
     protected $keyType = 'string';
     protected $fillable = [

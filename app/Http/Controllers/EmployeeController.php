@@ -6,6 +6,8 @@ use App\Models\Employee;
 use App\Models\Family_date;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class EmployeeController extends Controller
 {
@@ -16,12 +18,12 @@ class EmployeeController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
-        public function golongan()
-        {
-            $employees = Employee::paginate(10); 
+    public function golongan()
+    {
+        $employees = Employee::paginate(10);
 
-            return view('employee.golongan', compact('employees'));
-        }
+        return view('employee.golongan', compact('employees'));
+    }
     public function create()
     {
         return view('employee.create');
@@ -130,16 +132,88 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')
             ->with('success', 'Data karyawan berhasil diperbarui.');
     }
+    // public function destroy($id_number)
+    // {
+    //     $employee = Employee::where('id_number', $id_number)->first();
+    //     if ($employee) {
+    //         Family_date::where('id_number', $id_number)->delete();
+    //         $employee->delete();
+    //         return redirect()->route('employees.index')
+    //             ->with('success', 'Data karyawan dan data terkait berhasil dihapus.');
+    //     }
+    //     return redirect()->route('employees.index')
+    //         ->with('error', 'Data karyawan tidak ditemukan.');
+    // }
+    public function archive()
+    {
+        $archivedEmployees = DB::table('archive_employees')->paginate(10);
+
+        return view('employee.archive', compact('archivedEmployees'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
+    }
+
     public function destroy($id_number)
     {
-        $employee = Employee::where('id_number', $id_number)->first();
-        if ($employee) {
-            Family_date::where('id_number', $id_number)->delete();
-            $employee->delete();
-            return redirect()->route('employees.index')
-                ->with('success', 'Data karyawan dan data terkait berhasil dihapus.');
-        }
+        $employee = Employee::where('id_number', $id_number)->firstOrFail();
+
+        // Pindahkan data ke tabel arsip (abaikan jika sudah ada)
+        DB::table('archive_employees')->insertOrIgnore([
+            'id_number' => $employee->id_number,
+            'full_name' => $employee->full_name,
+            'nickname' => $employee->nickname,
+            'contract_date' => $employee->contract_date,
+            'work_date' => $employee->work_date,
+            'work_time' => $employee->work_time,
+            'group' => $employee->group,
+            'status' => $employee->status,
+            'position' => $employee->position,
+            'nuptk' => $employee->nuptk,
+            'gender' => $employee->gender,
+            'place_birth' => $employee->place_birth,
+            'birth_date' => $employee->birth_date,
+            'religion' => $employee->religion,
+            'email' => $employee->email,
+            'hobby' => $employee->hobby,
+            'marital_status' => $employee->marital_status,
+            'residence_address' => $employee->residence_address,
+            'phone' => $employee->phone,
+            'address_emergency' => $employee->address_emergency,
+            'phone_emergency' => $employee->phone_emergency,
+            'blood_type' => $employee->blood_type,
+            'last_education' => $employee->last_education,
+            'agency' => $employee->agency,
+            'graduation_year' => $employee->graduation_year,
+            'competency_training_place' => $employee->competency_training_place,
+            'organizational_experience' => $employee->organizational_experience,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Hapus data dari tabel asli
+        $employee->delete();
+
         return redirect()->route('employees.index')
-            ->with('error', 'Data karyawan tidak ditemukan.');
+            ->with('success', 'Karyawan berhasil diarsipkan.');
+    }
+
+    public function destroyArchive($id_number)
+    {
+        DB::table('archive_employees')->where('id_number', $id_number)->delete();
+
+        return redirect()->route('employees.archive')
+            ->with('success', 'Karyawan berhasil dihapus secara permanen.');
+    }
+    public function restore($id_number)
+    {
+        // Temukan karyawan dengan id_number yang diberikan, termasuk yang dihapus
+        $employee = Employee::withTrashed()->where('id_number', $id_number)->first();
+
+        if ($employee) {
+            // Pulihkan karyawan jika ada
+            $employee->restore();
+            return redirect()->route('employees.index')->with('success', 'Employee restored successfully.');
+        } else {
+            return redirect()->route('employees.index')->with('error', 'Employee not found.');
+        }
     }
 }

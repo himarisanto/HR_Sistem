@@ -55,3 +55,8 @@ Route::get('/absensi/create', [AttendanceController::class, 'create'])->name('ab
 Route::post('/absensi', [AttendanceController::class, 'store'])->name('absensi.store');
 Route::get('/attendances/export', [AttendanceController::class, 'export'])->name('absensi.export');
 Route::post('/attendances/import', [AttendanceController::class, 'import'])->name('absensi.import');
+
+
+Route::post('/employees/restore/{id_number}', [EmployeeController::class, 'restore'])->name('employees.restore');
+Route::get('/employees/archive', [EmployeeController::class, 'archive'])->name('employees.archive');
+Route::delete('employees/archive/{id_number}', [EmployeeController::class, 'destroyArchive'])->name('employee.destroyArchive');
