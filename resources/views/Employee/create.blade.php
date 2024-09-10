@@ -60,6 +60,10 @@
                         </select>
                     </div>
                     <div class="col-md-6 mb-3">
+                        <label for="group" class="form-label"><strong>Golongan</strong></label>
+                        <input type="text" name="group" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
                         <label for="status" class="form-label"><strong>Status</strong></label>
                         <select name="status" class="form-control">
                             <option value=""></option>
@@ -197,9 +201,14 @@
 
 
         <div class="">
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <a class="btn btn-primary" href="{{ route('employees.index') }}">Kembali</a>
+            <button type="submit" class="btn btn-success me-2">
+                <i class="bi bi-save"></i> Simpan
+            </button>
+            <a class="btn btn-secondary" href="{{ route('employees.index') }}">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </a>
         </div>
+
     </form>
 </div>
 <script>
@@ -216,8 +225,8 @@
             [mateNameInput, childNameInput, weddingDateInput, weddingCertificateNumberInput].forEach(input => {
                 input.disabled = !isMarried;
                 if (input.disabled) {
-                    input.style.backgroundColor = '#f8f9fa'; 
-                    input.style.color = '#6c757d'; 
+                    input.style.backgroundColor = '#f8f9fa';
+                    input.style.color = '#6c757d';
                     input.style.cursor = 'not-allowed';
                 } else {
                     input.style.backgroundColor = '';

@@ -10,16 +10,11 @@
         {{ session('success') }}
     </div>
     @endif
-
-    <!-- Tautan untuk menambahkan catatan pelanggaran -->
-   
-
-    <!-- Tabel untuk menampilkan catatan pelanggaran -->
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>ID Number</th>
+                <th>NO</th>
+                <th>Nama </th>
                 <th>Jenis Pelanggaran</th>
                 <th>Tanggal Pelanggaran</th>
                 <th>Deskripsi</th>
@@ -30,19 +25,25 @@
             @foreach ($records as $record)
             <tr>
                 <td>{{ $record->id }}</td>
-                <td>{{ $record->id_number }}</td>
+                <td>{{ $record->employee->full_name }}</td>
                 <td>{{ $record->offense_type }}</td>
-                <td>{{ $record->offense_date->format('d-m-Y') }}</td> 
+                <td>{{ $record->offense_date->format('d-m-Y') }}</td>
                 <td>{{ $record->description }}</td>
-                <td>
-                    
-                    <a href="{{ route('pelanggaran.edit', $record->id_number) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('pelanggaran.destroy', $record->id_number) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
+                <td class="">
+                    <div class="d-inline-flex">
+                        <a href="{{ route('pelanggaran.edit', $record->id_number) }}" class="btn btn-outline-primary btn-sm me-2">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <form action="{{ route('pelanggaran.destroy', $record->id_number) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this record?');">
+                                <i class="bi bi-trash"></i> Hapus
+                            </button>
+                        </form>
+                    </div>
                 </td>
+
             </tr>
             @endforeach
         </tbody>

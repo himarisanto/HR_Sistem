@@ -27,6 +27,7 @@
                                     <th>Tanggal Kontrak</th>
                                     <th>Tanggal Kerja</th>
                                     <th>Masa Kerja</th>
+                                    <th>Golongan</th>
                                     <th>Status</th>
                                     <th>Posisi</th>
                                     <th>NUPTK</th>
@@ -51,7 +52,7 @@
                                     <th>Nama Anak</th>
                                     <th>Tanggal Pernikahan</th>
                                     <th>Nomor Sertifikat Pernikahan</th>
-                                    <th width="280px">Aksi</th>
+                                    <th width="400px">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,6 +65,7 @@
                                     <td>{{ $employee->contract_date }}</td>
                                     <td>{{ $employee->work_date }}</td>
                                     <td>{{ $employee->work_time }}</td>
+                                    <td>{{ $employee->group }}</td>
                                     <td>{{ $employee->status }}</td>
                                     <td>{{ $employee->position }}</td>
                                     <td>{{ $employee->nuptk }}</td>
@@ -88,14 +90,21 @@
                                     <td>{{ $employee->familyDate->child_name ?? '' }}</td>
                                     <td>{{ $employee->familyDate->wedding_date ?? '' }}</td>
                                     <td>{{ $employee->familyDate->wedding_certificate_number ?? '' }}</td>
-                                    <td>
-                                        <a href="{{ route('employees.edit', $employee->id_number) }}" class="btn btn-secondary btn-sm">Edit</a>
-                                        <form action="{{ route('employees.destroy', $employee->id_number) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                        </form>
+                                    <td class="">
+                                        <div class="d-inline-flex">
+                                            <a href="{{ route('employees.edit', $employee->id_number) }}" class="btn btn-outline-primary btn-sm me-2">
+                                                <i class="bi bi-pencil-square"></i> Edit
+                                            </a>
+                                            <form action="{{ route('employees.destroy', $employee->id_number) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');">
+                                                    <i class="bi bi-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
+
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -106,5 +115,5 @@
             </div>
         </div>
     </div>
-    
+
     @endsection

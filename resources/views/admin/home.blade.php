@@ -10,54 +10,55 @@
             <div class="row">
 
                 <!-- Total Employees Card -->
-                <div class="row">
-                    <!-- Total Employees Card -->
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people"></i> <!-- Icon for Total Employees -->
-                                    </div>
-                                    <div class="ps-3">
-                                        <h5 class="card-title">Total Employees</h5>
-                                        <h6>{{ $totalEmployees }}</h6>
-                                    </div>
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-people"></i> <!-- Icon for Total Employees -->
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Total Records Card -->
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card revenue-card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-folder"></i> <!-- Icon for Total Records -->
-                                    </div>
-                                    <div class="ps-3">
-                                        <h5 class="card-title">Total Records</h5>
-                                        <h6>{{ $totalRecords }}</h6>
-                                    </div>
+                                <div class="ps-3">
+                                    <h5 class="card-title">Total Employees</h5>
+                                    <h6>{{ $totalEmployees }}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-
-
-                <!-- Recent Activities Card -->
-                <div class="col-12">
-                    <div class="card recent-activities">
+                <!-- Total Records Card -->
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card revenue-card">
                         <div class="card-body">
-                            <h5 class="card-title">Recent Activities</h5>
-                            <ul>
-                                @foreach($recentActivity as $activity)
-                                <li>{{ $activity->offense_type }} on {{ $activity->offense_date }}</li>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-folder"></i> <!-- Icon for Total Records -->
+                                </div>
+                                <div class="ps-3">
+                                    <h5 class="card-title">Total Records</h5>
+                                    <h6>{{ $totalRecords }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Birthdays -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Upcoming Birthdays</h5>
+                            <div class="activity">
+                                @foreach($upcomingBirthdays as $birthday)
+                                <div class="activity-item d-flex">
+                                    <div class="activite-label">{{ $birthday->birth_date->format('M d') }}</div>
+                                    <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                                    <div class="activity-content">
+                                        {{ $birthday->full_name }}
+                                    </div>
+                                </div>
                                 @endforeach
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +94,6 @@
                     </div>
                 </div>
 
-
             </div>
         </div>
 
@@ -101,7 +101,7 @@
         <div class="col-lg-4">
 
             <!-- Recent Activity -->
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Recent Activity</h5>
                     <div class="activity">
@@ -116,10 +116,10 @@
                         @endforeach
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Budget Report -->
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Budget Report</h5>
                     <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
@@ -173,7 +173,7 @@
                         });
                     </script>
                 </div>
-            </div>
+            </div> -->
 
         </div><!-- End Right side columns -->
 

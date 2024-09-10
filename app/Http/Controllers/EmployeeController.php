@@ -15,6 +15,13 @@ class EmployeeController extends Controller
         return view('employee.index', compact('employees'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
+
+        public function golongan()
+        {
+            $employees = Employee::paginate(10); 
+
+            return view('employee.golongan', compact('employees'));
+        }
     public function create()
     {
         return view('employee.create');
@@ -27,6 +34,7 @@ class EmployeeController extends Controller
         $employee->nickname = $request->nickname;
         $employee->contract_date = $request->contract_date;
         $employee->work_date = $request->work_date;
+        $employee->group = $request->group;
         $employee->status = $request->status;
         $employee->position = $request->position;
         $employee->nuptk = $request->nuptk;
@@ -78,6 +86,7 @@ class EmployeeController extends Controller
         $employee->contract_date = $request->contract_date;
         $employee->work_date = $request->work_date;
         $employee->work_time = $request->work_time;
+        $employee->group = $request->group;
         $employee->status = $request->status;
         $employee->position = $request->position;
         $employee->nuptk = $request->nuptk;

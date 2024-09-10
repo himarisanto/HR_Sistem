@@ -40,11 +40,12 @@
 
                 <div class="form-group">
                     <label for="offense_date">Offense Date:</label>
-                    <input type="date" id="offense_date" name="offense_date" class="form-control" value="{{ $pelanggaran->offense_date }}" required>
+                    <input type="date" id="offense_date" name="offense_date" class="form-control" value="{{ old('offense_date', $pelanggaran->offense_date ? $pelanggaran->offense_date->format('Y-m-d') : '') }}" required>
                     @error('offense_date')
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
+
 
                 <div class="form-group">
                     <label for="description">Description:</label>
@@ -55,8 +56,11 @@
                 </div>
 
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
                 </div>
+
             </form>
         </div>
     </div>

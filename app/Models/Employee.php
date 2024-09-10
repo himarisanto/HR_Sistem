@@ -17,6 +17,7 @@ class Employee extends Model
         'contract_date',
         'work_date',
         'work_time',
+        'group',
         'status',
         'position',
         'nuptk',

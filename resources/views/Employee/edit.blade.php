@@ -81,7 +81,12 @@
                             </select>
                         </div>
                     </div>
-
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="group">Golongan:</label>
+                            <input type="text" name="group" class="form-control" value="{{ old('group', $employee->group) }}">
+                        </div>
+                    </div>
                     <!-- Status -->
                     <div class="col-md-6">
                         <div class="form-group">
@@ -132,7 +137,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="birth_date">Tanggal Lahir:</label>
-                            <input type="date" name="birth_date" class="form-control" value="{{ old('birth_date', $employee->birth_date) }}">
+                            <input type="date" id="birth_date" name="birth_date" class="form-control" value="{{ old('birth_date', $employee->birth_date ? $employee->birth_date->format('Y-m-d') : '') }}">
                         </div>
                     </div>
 
@@ -219,14 +224,6 @@
                                 <option value="B" {{ $employee->blood_type == 'B' ? 'selected' : '' }}>B</option>
                                 <option value="AB" {{ $employee->blood_type == 'AB' ? 'selected' : '' }}>AB</option>
                                 <option value="O" {{ $employee->blood_type == 'O' ? 'selected' : '' }}>O</option>
-                                <option value="A+" {{ $employee->blood_type == 'A+' ? 'selected' : '' }}>A+</option>
-                                <option value="A-" {{ $employee->blood_type == 'A-' ? 'selected' : '' }}>A-</option>
-                                <option value="B+" {{ $employee->blood_type == 'B+' ? 'selected' : '' }}>B+</option>
-                                <option value="B-" {{ $employee->blood_type == 'B-' ? 'selected' : '' }}>B-</option>
-                                <option value="AB+" {{ $employee->blood_type == 'AB+' ? 'selected' : '' }}>AB+</option>
-                                <option value="AB-" {{ $employee->blood_type == 'AB-' ? 'selected' : '' }}>AB-</option>
-                                <option value="O+" {{ $employee->blood_type == 'O+' ? 'selected' : '' }}>O+</option>
-                                <option value="O-" {{ $employee->blood_type == 'O-' ? 'selected' : '' }}>O-</option>
                             </select>
                         </div>
                     </div>
@@ -318,9 +315,14 @@
 
         <!-- Tombol Simpan dan Kembali -->
         <div class="">
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <a class="btn btn-secondary" href="{{ route('employees.index') }}">Kembali</a>
+            <button type="submit" class="btn btn-success me-2">
+                <i class="bi bi-save"></i> Simpan
+            </button>
+            <a class="btn btn-secondary" href="{{ route('employees.index') }}">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </a>
         </div>
+
     </form>
 </div>
 @endsection
