@@ -99,9 +99,9 @@
 
         <!-- Right side columns -->
         <div class="col-lg-4">
-
-            <!-- Recent Activity -->
-            <!-- <div class="card">
+<!-- 
+             Recent Activity -->
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Recent Activity</h5>
                     <div class="activity">
@@ -116,10 +116,10 @@
                         @endforeach
                     </div>
                 </div>
-            </div> -->
+            </div> 
 
             <!-- Budget Report -->
-            <!-- <div class="card">
+             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Budget Report</h5>
                     <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
@@ -173,9 +173,9 @@
                         });
                     </script>
                 </div>
-            </div> -->
+            </div> 
 
-        </div><!-- End Right side columns -->
+        </div>
 
     </div>
 </section>

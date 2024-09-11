@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use App\Imports\AttendanceImport;
-
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
 use App\Models\Attendance;
-use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 class AttendanceController extends Controller
 {
     public function index()
     {
-        $attendances = Attendance::all(); // Retrieve all attendance records from the database
-        return view('absensi.index', compact('attendances')); // Pass the data to the view
+        $attendances = Attendance::all();
+        return view('absensi.index', compact('attendances')); 
     }
     public function create()
     {
@@ -25,7 +22,6 @@ class AttendanceController extends Controller
     }
     public function store(Request $request)
     {
-        // Validasi data input
         $validatedData = $request->validate([
             'pin' => 'required',
             'nip' => 'required',
@@ -70,8 +66,6 @@ class AttendanceController extends Controller
             'tidak_scan_selesai_lembur' => 'required|numeric',
             'izin_lain_lain' => 'nullable',
         ]);
-
-        // Simpan data ke dalam database
         Attendance::create($validatedData);
 
         return redirect()->route('absensi.index')->with('success', 'Absensi berhasil ditambahkan.');
@@ -83,143 +77,126 @@ class AttendanceController extends Controller
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-
+        $sheet->setTitle('Absensi');
 
         $headers = [
-            'B1' => 'PIN',
-            'C1' => 'NIP',
-            'D1' => 'Nama',
-            'E1' => 'Jabatan',
-            'F1' => 'Departemen',
-            'G1' => 'Kantor',
-            'H1' => 'Izin Libur',
-            'I1' => 'Jml',
-            'J1' => 'Jam Menit',
-            'K1' => 'Jml Terlambat',
-            'L1' => 'Jam Menit Terlambat',
-            'M1' => 'Jml Pulang Awal',
-            'N1' => 'Jam Menit Pulang Awal',
-            'O1' => 'Jml Istirahat Lebih',
-            'P1' => 'Jam Menit Istirahat Lebih',
-            'Q1' => 'Jml Scan Kerja',
-            'R1' => 'Jam Menit Scan Kerja',
-            'S1' => 'Jml Lembur',
-            'T1' => 'Jam Menit Lembur',
-            'U1' => 'Tidak Hadir',
-            'V1' => 'Libur',
-            'W1' => 'Perhitungan Pengecualian Izin',
-            'X1' => 'Tanpa Izin',
-            'Y1' => 'Rutin Umum',
-            'Z1' => 'Izin Tidak Masuk Pribadi',
-            'AA1' => 'Izin Pulang Awal Pribadi',
-            'AB1' => 'Izin Datang Terlambat Pribadi',
-            'AC1' => 'Sakit Dengan Surat Dokter',
-            'AD1' => 'Sakit Tanpa Surat Dokter',
-            'AE1' => 'Izin Meninggalkan Tempat Kerja',
-            'AF1' => 'Izin Dinas',
-            'AG1' => 'Izin Datang Terlambat Kantor',
-            'AH1' => 'Izin Pulang Awal Kantor',
-            'AI1' => 'Cuti Normatif',
-            'AJ1' => 'Cuti Pribadi',
-            'AK1' => 'Tidak Scan Masuk',
-            'AL1' => 'Tidak Scan Pulang',
-            'AM1' => 'Tidak Scan Mulai Istirahat',
-            'AN1' => 'Tidak Scan Selesai Istirahat',
-            'AO1' => 'Tidak Scan Mulai Lembur',
-            'AP1' => 'Tidak Scan Selesai Lembur',
-            'AQ1' => 'Izin Lain Lain',
+            'PIN',
+            'NIP',
+            'Nama',
+            'Jabatan',
+            'Departemen',
+            'Kantor',
+            'Izin Libur',
+            'kehadiran jml',
+            'Jam:menit',
+            'Datang terlambat jml',
+            'jam:menit',
+            'pulang awal jml',
+            'jam:Menit',
+            'istirahat lebih jml',
+            'Jam:menit',
+            'Scan kerja 1x masuk',
+            'keluar',
+            'Lembur Jam',
+            'menit',
+            'Scan 1x',
+            'Tidak hadir tanpa Izin',
+            'Libut rutin & umum',
+            'Izin pribadi',
+            'Izin pulang Awal',
+            'Izin Datang Terlambat',
+            'Sakit ada surat dokter',
+            'Sakit Tanpa Surat Dokter',
+            'Meninggalkan tempat kerja',
+            'Izin Dinas/kantor',
+            'Datang Telat/Kantor',
+            'Pualng Awal/Kantor',
+            'Cuti normatif',
+            'Cuti pribadi',
+            'Tidak scan/masuk',
+            'Tidak scan/pulang',
+            'Tidak scan/istirahat',
+            'Tidak scan/selesai istirahat',
+            'Tidak scan/Mulai lembur',
+            'Tidak scan/selesai lembur',
+            'Izin lain-lain'
         ];
 
-        foreach ($headers as $cell => $header) {
-            $sheet->setCellValue($cell, $header);
-        }
-
+        $sheet->fromArray($headers, null, 'A1');
 
         $row = 2;
         foreach ($attendances as $attendance) {
-            $sheet->setCellValue('B' . $row, $attendance->pin);
-            $sheet->setCellValue('C' . $row, $attendance->nip);
-            $sheet->setCellValue('D' . $row, $attendance->nama);
-            $sheet->setCellValue('E' . $row, $attendance->jabatan);
-            $sheet->setCellValue('F' . $row, $attendance->departemen);
-            $sheet->setCellValue('G' . $row, $attendance->kantor);
-            $sheet->setCellValue('H' . $row, $attendance->izin_libur);
-            $sheet->setCellValue('I' . $row, $attendance->jml);
-            $sheet->setCellValue('J' . $row, $attendance->jam_menit);
-            $sheet->setCellValue('K' . $row, $attendance->jml_terlambat);
-            $sheet->setCellValue('L' . $row, $attendance->jam_menit_terlambat);
-            $sheet->setCellValue('M' . $row, $attendance->jml_pulang_awal);
-            $sheet->setCellValue('N' . $row, $attendance->jam_menit_pulang_awal);
-            $sheet->setCellValue('O' . $row, $attendance->jml_istirahat_lebih);
-            $sheet->setCellValue('P' . $row, $attendance->jam_menit_istirahat_lebih);
-            $sheet->setCellValue('Q' . $row, $attendance->jml_scan_kerja);
-            $sheet->setCellValue('R' . $row, $attendance->jam_menit_scan_kerja);
-            $sheet->setCellValue('S' . $row, $attendance->jml_lembur);
-            $sheet->setCellValue('T' . $row, $attendance->jam_menit_lembur);
-            $sheet->setCellValue('U' . $row, $attendance->tidak_hadir);
-            $sheet->setCellValue('V' . $row, $attendance->libur);
-            $sheet->setCellValue('W' . $row, $attendance->perhitungan_pengecualian_izin);
-            $sheet->setCellValue('X' . $row, $attendance->tanpa_izin);
-            $sheet->setCellValue('Y' . $row, $attendance->rutin_umum);
-            $sheet->setCellValue('Z' . $row, $attendance->izin_tidak_masuk_pribadi);
-            $sheet->setCellValue('AA' . $row, $attendance->izin_pulang_awal_pribadi);
-            $sheet->setCellValue('AB' . $row, $attendance->izin_datang_terlambat_pribadi);
-            $sheet->setCellValue('AC' . $row, $attendance->sakit_dengan_surat_dokter);
-            $sheet->setCellValue('AD' . $row, $attendance->sakit_tanpa_surat_dokter);
-            $sheet->setCellValue('AE' . $row, $attendance->izin_meninggalkan_tempat_kerja);
-            $sheet->setCellValue('AF' . $row, $attendance->izin_dinas);
-            $sheet->setCellValue('AG' . $row, $attendance->izin_datang_terlambat_kantor);
-            $sheet->setCellValue('AH' . $row, $attendance->izin_pulang_awal_kantor);
-            $sheet->setCellValue('AI' . $row, $attendance->cuti_normatif);
-            $sheet->setCellValue('AJ' . $row, $attendance->cuti_pribadi);
-            $sheet->setCellValue('AK' . $row, $attendance->tidak_scan_masuk);
-            $sheet->setCellValue('AL' . $row, $attendance->tidak_scan_pulang);
-            $sheet->setCellValue('AM' . $row, $attendance->tidak_scan_mulai_istirahat);
-            $sheet->setCellValue('AN' . $row, $attendance->tidak_scan_selesai_istirahat);
-            $sheet->setCellValue('AO' . $row, $attendance->tidak_scan_mulai_lembur);
-            $sheet->setCellValue('AP' . $row, $attendance->tidak_scan_selesai_lembur);
-            $sheet->setCellValue('AQ' . $row, $attendance->izin_lain_lain);
+            $sheet->fromArray($attendance->toArray(), null, 'A' . $row);
             $row++;
         }
 
         $writer = new Xlsx($spreadsheet);
-        $filename = 'attendances.xlsx';
-        $filePath = storage_path('app/' . $filename);
+        $fileName = 'Absensi-' . now()->format('YmdHis') . '.xlsx';
 
+        $filePath = storage_path('app/public/' . $fileName);
         $writer->save($filePath);
 
         return response()->download($filePath)->deleteFileAfterSend(true);
     }
-
     public function import(Request $request)
-    { {
-            // Validasi file
-            $request->validate([
-                'file' => 'required|mimes:xlsx'
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        $file = $request->file('file');
+        $spreadsheet = IOFactory::load($file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
+        $data = $sheet->toArray();
+
+        array_shift($data);
+
+        foreach ($data as $row) {
+            Attendance::updateOrCreate([
+                'pin' => $row[0],
+                'nip' => $row[1]
+            ], [
+                'nama' => $row[2],
+                'jabatan' => $row[3],
+                'departemen' => $row[4],
+                'kantor' => $row[5],
+                'izin_libur' => $row[6],
+                'kehadiran_jml' => $row[7],
+                'jam_menit_kehadiran' => $row[8],
+                'datang_terlambat_jml' => $row[9],
+                'jam_menit_datang_terlambat' => $row[10],
+                'pulang_awal_jml' => $row[11],
+                'jam_menit_pulang_awal' => $row[12],
+                'istirahat_lebih_jml' => $row[13],
+                'jam_menit_istirahat_lebih' => $row[14],
+                'scan_kerja_1x_masuk' => $row[15],
+                'keluar' => $row[16],
+                'lembur_jam' => $row[17],
+                'lembur_menit' => $row[18],
+                'scan_1x' => $row[19],
+                'tidak_hadir_tanpa_izin' => $row[20],
+                'libur_rutin_umum' => $row[21],
+                'izin_pribadi' => $row[22],
+                'izin_pulang_awal' => $row[23],
+                'izin_datang_terlambat' => $row[24],
+                'sakit_ada_surat_dokter' => $row[25],
+                'sakit_tanpa_surat_dokter' => $row[26],
+                'meninggalkan_tempat_kerja' => $row[27],
+                'izin_dinas_kantor' => $row[28],
+                'datang_telat_kantor' => $row[29],
+                'pulang_awal_kantor' => $row[30],
+                'cuti_normatif' => $row[31],
+                'cuti_pribadi' => $row[32],
+                'tidak_scan_masuk' => $row[33],
+                'tidak_scan_pulang' => $row[34],
+                'tidak_scan_istirahat' => $row[35],
+                'tidak_scan_selesai_istirahat' => $row[36],
+                'tidak_scan_mulai_lembur' => $row[37],
+                'tidak_scan_selesai_lembur' => $row[38],
+                'izin_lain_lain' => $row[39],
             ]);
-
-            // Simpan file ke storage sementara
-            $filePath = $request->file('file')->store('temp');
-
-            try {
-                // Panggil metode import dari kelas AttendanceImport
-                $importer = new AttendanceImport();
-                $importer->importFromExcel(storage_path('app/' . $filePath));
-
-                // Hapus file setelah impor
-                Storage::delete($filePath);
-
-                return redirect()->back()->with('success', 'Data berhasil diimpor.');
-            } catch (\Exception $e) {
-                // Tangani error jika terjadi
-                \Log::error('Error saat impor data: ' . $e->getMessage());
-
-                // Hapus file meskipun terjadi error
-                Storage::delete($filePath);
-
-                // Alihkan pengguna dengan pesan kesalahan
-                return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data. Silakan coba lagi.');
-            }
         }
+
+        return redirect()->back()->with('success', 'Data successfully imported!');
     }
 }
