@@ -11,16 +11,17 @@ class Employee_record extends Model
 
     protected $table = 'employee_records';
 
-
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_number';
     protected $keyType = 'int';
 
-  
     protected $fillable = [
         'id_number',
         'offense_type',
         'offense_date',
         'description',
+        'followed_up',
+        'followup_date',
+        'followup_notes',
     ];
 
     protected $casts = [

@@ -49,6 +49,8 @@ Route::post('/pelanggaran', [EmployeeRecordController::class, 'store'])->name('p
 Route::get('/pelanggaran/{pelanggaran}/edit', [EmployeeRecordController::class, 'edit'])->name('pelanggaran.edit');
 Route::put('pelanggaran/{pelanggaran}', [EmployeeRecordController::class, 'update'])->name('pelanggaran.update');
 Route::delete('pelanggaran/{pelanggaran}', [EmployeeRecordController::class, 'destroy'])->name('pelanggaran.destroy');
+Route::get('pelanggaran/followup/{id_number}', [EmployeeRecordController::class, 'followup'])->name('pelanggaran.followup');
+Route::post('/pelanggaran/followup/save', [EmployeeRecordController::class, 'saveFollowup'])->name('pelanggaran.followup.save');
 
 Route::get('/attendances', [AttendanceController::class, 'index'])->name('absensi.index');
 Route::get('/absensi/create', [AttendanceController::class, 'create'])->name('absensi.create');

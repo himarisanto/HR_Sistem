@@ -20,7 +20,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nomor KTP</th>
+                                    <th>No KTP</th>
                                     <th>Nama Lengkap</th>
                                     <th>Nama Panggilan</th>
                                     <th>Tanggal Kontrak</th>
@@ -47,6 +47,10 @@
                                     <th>Tahun Kelulusan</th>
                                     <th>Tempat Pelatihan Kompetensi</th>
                                     <th>Pengalaman Organisasi</th>
+                                    <!-- <th>Nama Pasangan</th>
+                                    <th>Nama Anak</th>
+                                    <th>Tanggal Pernikahan</th>
+                                    <th>Nomor Sertifikat Pernikahan</th> -->
                                     <th width="400px">Aksi</th>
                                 </tr>
                             </thead>
@@ -81,6 +85,10 @@
                                     <td>{{ $employee->graduation_year }}</td>
                                     <td>{{ $employee->competency_training_place }}</td>
                                     <td>{{ $employee->organizational_experience }}</td>
+                                    <!-- <td>{{ $employee->mate_name ?? '' }}</td>
+                                    <td>{{ $employee->child_name ?? '' }}</td>
+                                    <td>{{ $employee->wedding_date ?? '' }}</td>
+                                    <td>{{ $employee->wedding_certificate_number ?? '' }}</td> -->
                                     <td class="">
                                         <div class="d-inline-flex">
                                             <form action="{{ route('employees.restore', $employee->id_number) }}" method="POST">
@@ -102,7 +110,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {!! $archivedEmployees->links() !!}
                     </div>
                 </div>
             </div>

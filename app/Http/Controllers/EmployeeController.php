@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Employee_record;
 use App\Models\Family_date;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -132,31 +133,20 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')
             ->with('success', 'Data karyawan berhasil diperbarui.');
     }
-    // public function destroy($id_number)
-    // {
-    //     $employee = Employee::where('id_number', $id_number)->first();
-    //     if ($employee) {
-    //         Family_date::where('id_number', $id_number)->delete();
-    //         $employee->delete();
-    //         return redirect()->route('employees.index')
-    //             ->with('success', 'Data karyawan dan data terkait berhasil dihapus.');
-    //     }
-    //     return redirect()->route('employees.index')
-    //         ->with('error', 'Data karyawan tidak ditemukan.');
-    // }
+  
     public function archive()
     {
-        $archivedEmployees = DB::table('archive_employees')->paginate(10);
+        $archivedEmployees = DB::table('archive_employees')->get();
 
         return view('employee.archive', compact('archivedEmployees'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
+
     public function destroy($id_number)
     {
-        $employee = Employee::where('id_number', $id_number)->firstOrFail();
+        $employee = Employee::with('familyDate')->where('id_number', $id_number)->firstOrFail();
 
-        // Pindahkan data ke tabel arsip (abaikan jika sudah ada)
         DB::table('archive_employees')->insertOrIgnore([
             'id_number' => $employee->id_number,
             'full_name' => $employee->full_name,
@@ -185,16 +175,20 @@ class EmployeeController extends Controller
             'graduation_year' => $employee->graduation_year,
             'competency_training_place' => $employee->competency_training_place,
             'organizational_experience' => $employee->organizational_experience,
+            'mate_name' => $employee->familyDate->mate_name ?? '',
+            'child_name' => $employee->familyDate->child_name ?? '',
+            'wedding_date' => $employee->familyDate->wedding_date ?? '',
+            'wedding_certificate_number' => $employee->familyDate->wedding_certificate_number ?? '',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        // Hapus data dari tabel asli
         $employee->delete();
 
         return redirect()->route('employees.index')
             ->with('success', 'Karyawan berhasil diarsipkan.');
     }
+
 
     public function destroyArchive($id_number)
     {
@@ -205,13 +199,15 @@ class EmployeeController extends Controller
     }
     public function restore($id_number)
     {
-        // Temukan karyawan dengan id_number yang diberikan, termasuk yang dihapus
         $employee = Employee::withTrashed()->where('id_number', $id_number)->first();
 
         if ($employee) {
-            // Pulihkan karyawan jika ada
+       
             $employee->restore();
-            return redirect()->route('employees.index')->with('success', 'Employee restored successfully.');
+
+            DB::table('archive_employees')->where('id_number', $id_number)->delete();
+
+            return redirect()->route('employees.index')->with('success', 'Employee restored and removed from archive successfully.');
         } else {
             return redirect()->route('employees.index')->with('error', 'Employee not found.');
         }

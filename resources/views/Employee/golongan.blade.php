@@ -31,7 +31,7 @@
                             <tbody>
                                 @foreach ($employees as $employee)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td> <!-- Menggunakan $loop->iteration sebagai nomor urut -->
+                                    <td>{{ $loop->iteration }}</td> 
                                     <td>{{ $employee->id_number }}</td>
                                     <td>{{ $employee->full_name }}</td>
                                     <td>{{ $employee->nickname }}</td>

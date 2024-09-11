@@ -99,8 +99,9 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');">
-                                                    <i class="bi bi-trash"></i> Hapus
+                                                    <i class="bi bi-archive"></i> Arsip
                                                 </button>
+
                                             </form>
                                         </div>
                                     </td>

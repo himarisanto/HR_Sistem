@@ -4,13 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateArchiveEmployeesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('archive_employees', function (Blueprint $table) {
@@ -42,18 +37,16 @@ return new class extends Migration
             $table->string('graduation_year')->nullable();
             $table->string('competency_training_place')->nullable();
             $table->string('organizational_experience')->nullable();
+            $table->string('mate_name')->nullable();
+            $table->string('child_name')->nullable();
+            $table->date('wedding_date')->nullable();
+            $table->string('wedding_certificate_number')->nullable();
             $table->timestamps();
         });
     }
 
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('archive_employees');
     }
-};
+}
