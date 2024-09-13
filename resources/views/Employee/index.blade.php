@@ -7,13 +7,31 @@
                 <h2 class="text-center">Data Karyawan</h2>
             </div>
 
-
             @if ($message = Session::get('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Success!</strong> {{ $message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <form action="{{ route('employees.import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <input type="file" name="file" class="form-control" accept=".xlsx, .xls, .csv">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Import</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tombol Export Excel -->
+            <div class="mb-3">
+                <a href="{{ route('employees.export') }}" class="btn btn-primary">Export Data</a>
+            </div>
+
+            <!-- Tabel Data Karyawan -->
             <div class="card">
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -90,22 +108,18 @@
                                     <td>{{ $employee->familyDate->child_name ?? '' }}</td>
                                     <td>{{ $employee->familyDate->wedding_date ?? '' }}</td>
                                     <td>{{ $employee->familyDate->wedding_certificate_number ?? '' }}</td>
-                                    <td class="">
-                                        <div class="d-inline-flex">
-                                            <a href="{{ route('employees.edit', $employee->id_number) }}" class="btn btn-outline-primary btn-sm me-2">
-                                                <i class="bi bi-pencil-square"></i> Edit
-                                            </a>
-                                            <form action="{{ route('employees.destroy', $employee->id_number) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');">
-                                                    <i class="bi bi-archive"></i> Arsip
-                                                </button>
-
-                                            </form>
-                                        </div>
+                                    <td class="d-inline-flex">
+                                        <a href="{{ route('employees.edit', $employee->id_number) }}" class="btn btn-outline-primary btn-sm me-2">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        <form action="{{ route('employees.destroy', $employee->id_number) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');">
+                                                <i class="bi bi-archive"></i> Arsip
+                                            </button>
+                                        </form>
                                     </td>
-
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -116,5 +130,5 @@
             </div>
         </div>
     </div>
-
-    @endsection
+</div>
+@endsection

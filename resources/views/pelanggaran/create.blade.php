@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center mb-1">Create Employee Record</h1>
+    <h1 class="text-center mb-1"> Buat Catatan Karyawan</h1>
 
     @if (session('success'))
     <div class="alert alert-success">

@@ -11,11 +11,39 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class AttendanceController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     $attendances = Attendance::paginate(0); // Sesuaikan jumlah item per halaman
+    //     return view('absensi.index', compact('attendances'));
+    // }
+    public function index(Request $request)
     {
-        $attendances = Attendance::all();
-        return view('absensi.index', compact('attendances')); 
+        $query = Attendance::query();
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->search . '%')
+                    ->orWhere('nip', 'like', '%' . $request->search . '%')
+                    ->orWhere('jabatan', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('jabatan')) {
+            $query->where('jabatan', $request->jabatan);
+        }
+
+        if ($request->filled('departemen')) {
+            $query->where('departemen', $request->departemen);
+        }
+
+        $attendances = $query->paginate(10);
+
+        $jabatans = Attendance::select('jabatan')->distinct()->pluck('jabatan');
+        $departemens = Attendance::select('departemen')->distinct()->pluck('departemen');
+
+        return view('absensi.index', compact('attendances', 'jabatans', 'departemens'));
     }
+
     public function create()
     {
         return view('absensi.create');

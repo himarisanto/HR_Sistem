@@ -175,29 +175,30 @@
 
         <div class="card mb-4">
             <div class="card-header">
-                <h5 style="text-align: center;">Data Keluarga</h5>
+                <h5 class="text-center">Data Keluarga</h5>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="mate_name" class="form-label"><strong>Nama Pasangan</strong></label>
-                        <input type="text" name="mate_name" class="form-control">
+                        <input type="text" id="mate_name" name="mate_name" class="form-control" placeholder="Masukkan nama pasangan">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="child_name" class="form-label"><strong>Nama Anak</strong></label>
-                        <input type="text" name="child_name" class="form-control">
+                        <input type="text" id="child_name" name="child_name" class="form-control" placeholder="Masukkan nama anak">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="wedding_date" class="form-label"><strong>Tanggal Pernikahan</strong></label>
-                        <input type="date" name="wedding_date" class="form-control">
+                        <input type="date" id="wedding_date" name="wedding_date" class="form-control">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="wedding_certificate_number" class="form-label"><strong>Nomor Sertifikat Pernikahan</strong></label>
-                        <input type="text" name="wedding_certificate_number" class="form-control">
+                        <input type="text" id="wedding_certificate_number" name="wedding_certificate_number" class="form-control" placeholder="Masukkan nomor sertifikat">
                     </div>
                 </div>
             </div>
         </div>
+
 
 
         <div class="">

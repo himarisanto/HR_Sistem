@@ -62,3 +62,5 @@ Route::post('/attendances/import', [AttendanceController::class, 'import'])->nam
 Route::post('/employees/restore/{id_number}', [EmployeeController::class, 'restore'])->name('employees.restore');
 Route::get('/employees/archive', [EmployeeController::class, 'archive'])->name('employees.archive');
 Route::delete('employees/archive/{id_number}', [EmployeeController::class, 'destroyArchive'])->name('employee.destroyArchive');
+Route::get('employees/export', [EmployeeController::class, 'export'])->name('employees.export');
+Route::post('employees/import', [EmployeeController::class, 'import'])->name('employees.import');

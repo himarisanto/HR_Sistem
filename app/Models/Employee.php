@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes; // Impor SoftDeletes dari namespace yang benar
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $dates = ['deleted_at'];
     protected $primaryKey = 'id_number';
@@ -44,18 +42,16 @@ class Employee extends Model
         'competency_training_place',
         'organizational_experience'
     ];
+
     protected $casts = [
         'birth_date' => 'datetime',
     ];
-    function employee_record()
+
+    public function employeeRecord()
     {
         return $this->hasMany(Employee_record::class);
     }
 
-    function Family_date()
-    {
-        return $this->hasOne(Family_date::class);
-    }
     public function familyDate()
     {
         return $this->hasOne(Family_date::class, 'id_number', 'id_number');
